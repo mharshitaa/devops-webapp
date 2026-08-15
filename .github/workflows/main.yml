@@ -4,17 +4,28 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  static-analysis:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Verify files
+      - name: Check HTML file
         run: |
-          echo "Build started"
-          ls
-          echo "Build completed successfully"
+          echo "Running static analysis..."
+          test -s index.html
+          echo "index.html exists and is not empty"
+
+      - name: Check CSS file
+        run: |
+          test -s style.css
+          echo "style.css exists and is not empty"
+
+      - name: Static Analysis Complete
+        run: echo "Static analysis completed successfully"
